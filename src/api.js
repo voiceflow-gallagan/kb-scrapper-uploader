@@ -24,6 +24,7 @@ const html2mdOptions = {
     'aside',
     'article',
     'header',
+    'label',
   ],
   emptyTags: [],
   aliasTags: {
