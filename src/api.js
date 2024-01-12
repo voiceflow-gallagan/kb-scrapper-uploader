@@ -38,8 +38,6 @@ const html2mdOptions = {
 
 export const Scrapper = {
   parse: async function (url, cache, format, set) {
-    console.log(url)
-    console.log(format)
     let outputFormat = format || 'text'
     let useCache = cache || 'no'
 
@@ -54,8 +52,7 @@ export const Scrapper = {
     } else {
       outputFormat = 'mrkdown'
     }
-    console.log(outputFormat)
-    //`http://127.0.0.1:3010/api/article?url=${url}&cache=${useCache}&full-content=${full}`,
+
     return axios
       .get(
         `http://127.0.0.1:${Bun.env.SCRAPPER_PORT}/api/article?url=${url}&cache=${useCache}`,
@@ -88,7 +85,7 @@ export const Scrapper = {
             doc.content = html2md(response.data.content, html2mdOptions, true)
           }
 
-          return doc //response.data
+          return doc
         }
         return { error: 'No content found' }
       })
