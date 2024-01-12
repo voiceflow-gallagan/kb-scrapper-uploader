@@ -21,6 +21,8 @@
     "@elysiajs/swagger": "^0.8.3",
     "axios": "^1.6.5",
     "elysia": "^0.8.9",
-    "html-to-md": "^0.8.5"
+    "html-to-md": "^0.8.5",
+    "turndown": "^7.1.2",
+    "turndown-plugin-gfm": "^1.0.2"
   }
 }

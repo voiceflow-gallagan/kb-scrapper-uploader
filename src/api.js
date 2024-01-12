@@ -1,5 +1,11 @@
 import axios from 'axios'
 import html2md from 'html-to-md'
+var TurndownService = require('turndown')
+var turndownPluginGfm = require('turndown-plugin-gfm')
+
+var gfm = turndownPluginGfm.gfm
+var turndownService = new TurndownService()
+turndownService.use(gfm)
 
 const html2mdOptions = {
   ignoreTags: [
@@ -12,6 +18,7 @@ const html2mdOptions = {
     'noscript',
     'script',
     'meta',
+    'footer',
   ],
   skipTags: [
     'div',
@@ -34,7 +41,7 @@ const html2mdOptions = {
     dt: 'p',
     figcaption: 'p',
   },
-  renderCustomTags: true,
+  renderCustomTags: 'SKIP', //true,
 }
 
 export const Scrapper = {
@@ -73,7 +80,8 @@ export const Scrapper = {
             if (outputFormat === 'text') {
               doc.excerpt = response.data.excerpt
             } else {
-              doc.excerpt = html2md(response.data.excerpt, html2mdOptions, true)
+              // doc.excerpt = html2md(response.data.excerpt, html2mdOptions, true)
+              doc.excerpt = turndownService.turndown(response.data.excerpt)
             }
           }
           if (response.data.meta.og.image) {
@@ -83,7 +91,8 @@ export const Scrapper = {
           if (outputFormat === 'text') {
             doc.content = response.data.textContent
           } else {
-            doc.content = html2md(response.data.content, html2mdOptions, true)
+            // doc.content = html2md(response.data.content, html2mdOptions, true)
+            doc.content = turndownService.turndown(response.data.content)
           }
 
           return doc
