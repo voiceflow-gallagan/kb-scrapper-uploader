@@ -1,0 +1,26 @@
+{
+  "name": "kb-scrapper-uploader",
+  "module": "./src/app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/app.js",
+    "start": "bun install && bun run src/app.js",
+    "app": "bun install && bun run src/app.js",
+    "docker-start": "docker-compose down --rmi all && docker-compose up --remove-orphans --build -d",
+    "docker-stop": "docker-compose down"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/server-timing": "^0.8.0",
+    "@elysiajs/swagger": "^0.8.3",
+    "axios": "^1.6.5",
+    "elysia": "^0.8.9",
+    "html-to-md": "^0.8.5"
+  }
+}
