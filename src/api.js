@@ -58,7 +58,7 @@ export const Scrapper = {
     //`http://127.0.0.1:3010/api/article?url=${url}&cache=${useCache}&full-content=${full}`,
     return axios
       .get(
-        `http://0.0.0.0:${Bun.env.SCRAPPER_PORT}/api/article?url=${url}&cache=${useCache}`,
+        `http://127.0.0.1:${Bun.env.SCRAPPER_PORT}/api/article?url=${url}&cache=${useCache}`,
         {
           headers: {
             'Content-Type': 'application/json',
