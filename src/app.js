@@ -12,7 +12,7 @@ const app = new Elysia()
           { name: 'App', description: 'General endpoints' },
         ],
         info: {
-          title: 'Unleash Proxy API Documentation',
+          title: 'KB Scrapper Proxy API Documentation',
           description: 'Development documentation',
           version: '1.0.1',
         },
@@ -54,61 +54,38 @@ app.get(
   {
     detail: {
       tags: ['App'],
-      summary: 'Add a workspace ID to Unleash segment',
+      summary: 'Parse an URL and generate a JSON object',
       description:
-        'Fetch data from Unleash to retreive existing workspace IDs and add a new one',
+        'Scrappe the given URL and return a JSON object with the content in the specified format',
       parameters: [
         {
           name: 'url',
           in: 'query',
-          description: 'Strategie name',
+          description: 'URL to parse',
           required: true,
+          schema: {
+            type: 'string',
+          },
         },
         {
           name: 'cache',
           in: 'query',
-          description: 'Use hashed version of workspace ID',
+          description: 'Use cache or not (default to false)',
           required: false,
-        },
-      ],
-      responses: {
-        200: { description: 'Success' },
-        400: { description: 'Bad Request' },
-        500: { description: 'Internal Server Error' },
-      },
-    },
-  }
-)
-
-app.get(
-  '/add/:id',
-  ({ unleash, params, query, set }) =>
-    unleash.add(params.id, query.name, query.workspace, query.hashed, set),
-  {
-    detail: {
-      tags: ['App'],
-      summary: 'Add a workspace ID to Unleash segment',
-      description:
-        'Fetch data from Unleash to retreive existing workspace IDs and add a new one',
-      parameters: [
-        { name: 'id', in: 'path', description: 'Segtment ID', required: true },
-        {
-          name: 'name',
-          in: 'query',
-          description: 'Strategie name',
-          required: true,
+          schema: {
+            type: 'boolean',
+            enum: [true, false],
+          },
         },
         {
-          name: 'workspace',
+          name: 'format',
           in: 'query',
-          description: 'Workspace ID to add',
-          required: true,
-        },
-        {
-          name: 'hashed',
-          in: 'query',
-          description: 'Use hashed version of workspace ID',
+          description: 'Format for the output (default to text)',
           required: false,
+          schema: {
+            type: 'string',
+            enum: ['text', 'markdown'],
+          },
         },
       ],
       responses: {
