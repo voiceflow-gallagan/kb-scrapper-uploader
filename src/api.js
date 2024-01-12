@@ -39,7 +39,7 @@ const html2mdOptions = {
 export const Scrapper = {
   parse: async function (url, cache, format, set) {
     let outputFormat = format || 'text'
-    let useCache = cache || 'no'
+    let useCache = cache || 'yes'
 
     if (useCache != 'no' && useCache != 'false' && useCache != false) {
       useCache = 'yes'

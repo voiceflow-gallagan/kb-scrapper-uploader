@@ -70,7 +70,7 @@ app.get(
         {
           name: 'cache',
           in: 'query',
-          description: 'Use cache or not (default to false)',
+          description: 'Use cache or not (default to true)',
           required: false,
           schema: {
             type: 'boolean',
