@@ -45,9 +45,10 @@ const html2mdOptions = {
 }
 
 export const Scrapper = {
-  parse: async function (url, cache, format, set) {
+  parse: async function (url, cache, format, engine, set) {
     let outputFormat = format || 'text'
     let useCache = cache || 'yes'
+    let mkEngine = engine || 'html2md'
 
     if (useCache != 'no' && useCache != 'false' && useCache != false) {
       useCache = 'yes'
@@ -80,8 +81,15 @@ export const Scrapper = {
             if (outputFormat === 'text') {
               doc.excerpt = response.data.excerpt
             } else {
-              // doc.excerpt = html2md(response.data.excerpt, html2mdOptions, true)
-              doc.excerpt = turndownService.turndown(response.data.excerpt)
+              if (mkEngine == 'html2md') {
+                doc.excerpt = html2md(
+                  response.data.excerpt,
+                  html2mdOptions,
+                  true
+                )
+              } else {
+                doc.excerpt = turndownService.turndown(response.data.excerpt)
+              }
             }
           }
           if (response.data.meta.og.image) {
@@ -91,10 +99,12 @@ export const Scrapper = {
           if (outputFormat === 'text') {
             doc.content = response.data.textContent
           } else {
-            // doc.content = html2md(response.data.content, html2mdOptions, true)
-            doc.content = turndownService.turndown(response.data.content)
+            if (mkEngine == 'html2md') {
+              doc.content = html2md(response.data.content, html2mdOptions, true)
+            } else {
+              doc.content = turndownService.turndown(response.data.content)
+            }
           }
-
           return doc
         }
         return { error: 'No content found' }

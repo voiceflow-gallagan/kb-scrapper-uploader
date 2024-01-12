@@ -50,7 +50,7 @@ app.get(
 app.get(
   '/parse',
   ({ scrapper, query, set }) =>
-    scrapper.parse(query.url, query.cache, query.format, set),
+    scrapper.parse(query.url, query.cache, query.format, query.engine, set),
   {
     detail: {
       tags: ['App'],
@@ -85,6 +85,16 @@ app.get(
           schema: {
             type: 'string',
             enum: ['text', 'markdown'],
+          },
+        },
+        {
+          name: 'engine',
+          in: 'query',
+          description: 'Engine to render markdown (default to html2md)',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['html2md', 'turndown'],
           },
         },
       ],
