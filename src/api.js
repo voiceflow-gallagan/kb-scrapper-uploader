@@ -57,11 +57,14 @@ export const Scrapper = {
     console.log(outputFormat)
     //`http://127.0.0.1:3010/api/article?url=${url}&cache=${useCache}&full-content=${full}`,
     return axios
-      .get(`http://127.0.0.1:3010/api/article?url=${url}&cache=${useCache}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      .get(
+        `http://127.0.0.1:${Bun.env.SCRAPPER_PORT}/api/article?url=${url}&cache=${useCache}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       .then(function (response) {
         if (response.data.textContent || response.data.fullContent) {
           let doc = {
@@ -88,54 +91,6 @@ export const Scrapper = {
           return doc //response.data
         }
         return { error: 'No content found' }
-      })
-      .catch(function (error) {
-        console.log(error)
-        set.status = 500
-        return { error: 'Internal Server Error' }
-      })
-  },
-  addSegment: async function (id, workspace, hashed, set) {
-    let wkID = workspace
-    if (hashed == false) {
-      wkID = await teamhash.decode(workspace)[0]
-    }
-    return axios
-      .get(
-        `https://app.unleash-hosted.com/voiceflow/api/admin/segments/${id}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: Bun.env.UNLEASH_API_KEY,
-          },
-        }
-      )
-      .then(function (response) {
-        let tmp = response.data
-        tmp.constraints[0].values.push(wkID)
-        delete tmp.createdAt
-        delete tmp.createdBy
-        delete tmp.description
-        delete tmp.id
-        return axios
-          .put(
-            `https://app.unleash-hosted.com/voiceflow/api/admin/segments/${id}`,
-            tmp,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: Bun.env.UNLEASH_API_KEY,
-              },
-            }
-          )
-          .then(function (response) {
-            return response.data
-          })
-          .catch(function (error) {
-            console.log(error)
-            set.status = 500
-            return { error: 'Internal Server Error' }
-          })
       })
       .catch(function (error) {
         console.log(error)

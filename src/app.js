@@ -46,7 +46,6 @@ app.get(
     },
   }
 )
-// http://127.0.0.1:3010/api/article?url=https%3A%2F%2Fwww.voiceflow.com%2Fabout&cache=no
 
 app.get(
   '/parse',
