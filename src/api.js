@@ -137,13 +137,7 @@ export const Scrapper = {
               doc.content = turndownService.turndown(response.data.content)
             }
           }
-          return executePostRequest(
-            response.data.title,
-            doc,
-            null,
-            projectID,
-            null
-          )
+          return executePostRequest(response.data.title, doc, null, null, null)
           //return doc
         }
         return { error: 'No content found' }
