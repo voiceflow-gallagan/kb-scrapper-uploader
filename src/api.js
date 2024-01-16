@@ -50,7 +50,7 @@ const html2mdOptions = {
 async function executePostRequest(filename, doc, apiKey, projectID, callback) {
   let form = new FormData()
 
-  form.append('file', doc, { filename: filename })
+  form.append('file', 'test', { filename: 'upload' })
   form.append('canEdit', 'true')
 
   let config = {
