@@ -59,7 +59,8 @@ async function executePostRequest(filename, doc, apiKey, projectID, callback) {
     headers: {
       accept: 'application/json, text/plain, */*',
       'content-type': `multipart/form-data; boundary=${form.getBoundary()}`,
-      cookie: 'auth_vf=VF.DM.65652b1da1e7a600072c3680.zv2bGKnpqm5baVsV;',
+      cookie:
+        'auth_vf=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjM2MDAsImVtYWlsIjoibmljb2xhcy5hcmNheUB2b2ljZWZsb3cuY29tIiwibmFtZSI6Ik5pY29sYXMgQXJjYXkgQmVybWVqbyIsImludGVybmFsQWRtaW4iOnRydWUsImlzcyI6Imh0dHBzOi8vYXV0aC1hcGkudm9pY2VmbG93LmNvbSIsImlhdCI6MTcwNTM0MDE1NH0.okDvpLOiDxwfuRvQ_J_xECoQGZlJb0H1IFbl_o98tjA;',
       ...form.getHeaders(),
     },
     data: form,
