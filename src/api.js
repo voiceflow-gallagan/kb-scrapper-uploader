@@ -140,9 +140,9 @@ export const Scrapper = {
           return executePostRequest(
             response.data.title,
             doc,
-            apiKey,
+            null,
             projectID,
-            callback
+            null
           )
           //return doc
         }
