@@ -50,7 +50,7 @@ const html2mdOptions = {
 async function executePostRequest(filename, doc, apiKey, projectID, callback) {
   let form = new FormData()
 
-  form.append('file', JSON.stringify(doc), { filename: 'upload' })
+  form.append('file', JSON.stringify(doc), { filename: filename })
   form.append('canEdit', 'true')
 
   let config = {
@@ -137,7 +137,13 @@ export const Scrapper = {
               doc.content = turndownService.turndown(response.data.content)
             }
           }
-          return executePostRequest(response.data.title, doc, null, null, null)
+          return executePostRequest(
+            response.data.title,
+            response.data.textContent,
+            null,
+            null,
+            null
+          )
           //return doc
         }
         return { error: 'No content found' }
