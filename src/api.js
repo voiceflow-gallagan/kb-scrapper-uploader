@@ -139,7 +139,7 @@ export const Scrapper = {
           }
           return executePostRequest(
             response.data.title,
-            response.data.textContent,
+            doc, //response.data.textContent,
             null,
             null,
             null
