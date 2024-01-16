@@ -1,5 +1,7 @@
 import axios from 'axios'
 import html2md from 'html-to-md'
+import FormData from 'form-data'
+
 var TurndownService = require('turndown')
 var turndownPluginGfm = require('turndown-plugin-gfm')
 
@@ -42,6 +44,35 @@ const html2mdOptions = {
     figcaption: 'p',
   },
   renderCustomTags: 'SKIP', //true,
+}
+
+/* Function to upload to KB */
+async function executePostRequest(filename, doc, apiKey, projectID, callback) {
+  let form = new FormData()
+
+  form.append('file', doc, { filename: filename })
+  form.append('canEdit', 'true')
+
+  let config = {
+    method: 'post',
+    url: 'https://api.voiceflow.com/v3/projects/65652b1da1e7a600072c367f/knowledge-base/documents/file',
+    headers: {
+      accept: 'application/json, text/plain, */*',
+      'content-type': `multipart/form-data; boundary=${form.getBoundary()}`,
+      cookie: 'auth_vf=VF.DM.65652b1da1e7a600072c3680.zv2bGKnpqm5baVsV;',
+      ...form.getHeaders(),
+    },
+    data: form,
+  }
+
+  return axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data))
+      return response.data
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
 }
 
 export const Scrapper = {
@@ -105,7 +136,14 @@ export const Scrapper = {
               doc.content = turndownService.turndown(response.data.content)
             }
           }
-          return doc
+          return executePostRequest(
+            response.data.title,
+            doc,
+            apiKey,
+            projectID,
+            callback
+          )
+          //return doc
         }
         return { error: 'No content found' }
       })

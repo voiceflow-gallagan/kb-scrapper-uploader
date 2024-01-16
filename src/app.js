@@ -12,7 +12,7 @@ const app = new Elysia()
           { name: 'App', description: 'General endpoints' },
         ],
         info: {
-          title: 'KB Scrapper Proxy API Documentation',
+          title: 'KB Scrapper API Documentation',
           description: 'Development documentation',
           version: '1.0.1',
         },
@@ -112,6 +112,6 @@ app.listen(
     port: Bun.env.PORT ?? 3000,
   },
   ({ hostname, port }) => {
-    console.log(`Unleash Proxy API is running at ${hostname}:${port}`)
+    console.log(`KB Scrapper API is running at ${hostname}:${port}`)
   }
 )
