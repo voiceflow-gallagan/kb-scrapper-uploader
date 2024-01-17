@@ -50,7 +50,13 @@ app.get(
 app.get(
   '/parse',
   ({ scrapper, query, set }) =>
-    scrapper.parse(query.url, query.cache, query.format, query.engine, set),
+    scrapper.parse(
+      encodeURI(query.url),
+      query.cache,
+      query.format,
+      query.engine,
+      set
+    ),
   {
     detail: {
       tags: ['App'],
@@ -95,6 +101,58 @@ app.get(
       },
     },
   }
+)
+
+app.post(
+  '/add',
+  ({ scrapper, body, set }) => {
+    console.log(body)
+  }
+  //scrapper.parse(query.url, query.cache, query.format, query.engine, set),
+  /* {
+    detail: {
+      tags: ['App'],
+      summary: 'Parse an URL and generate a JSON object',
+      description:
+        'Scrappe the given URL and return a JSON object with the content in the specified format',
+      parameters: [
+        {
+          name: 'url',
+          in: 'query',
+          description: 'URL to parse',
+          required: true,
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'cache',
+          in: 'query',
+          description: 'Use cache or not (default to true)',
+          required: false,
+          schema: {
+            type: 'boolean',
+            enum: [true, false],
+          },
+        },
+        {
+          name: 'format',
+          in: 'query',
+          description: 'Format for the output (default to text)',
+          required: false,
+          schema: {
+            type: 'string',
+            enum: ['text', 'markdown'],
+          },
+        },
+      ],
+      responses: {
+        200: { description: 'Success' },
+        400: { description: 'Bad Request' },
+        500: { description: 'Internal Server Error' },
+      },
+    },
+  } */
 )
 
 app.listen(
