@@ -21,7 +21,3 @@ services:
     image: 'amerkurev/scrapper:latest'
     restart: unless-stopped
     container_name: 'scrapper'
-    ports:
-      - '${SCRAPPER_PORT}:3000'
-    environment:
-      - SCRAPPER_PORT=${SCRAPPER_PORT}

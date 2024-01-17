@@ -86,14 +86,11 @@ export const Scrapper = {
     }
 
     return axios
-      .get(
-        `http://scrapper:${Bun.env.SCRAPPER_PORT}/api/article?url=${url}&cache=${useCache}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .get(`http://scrapper:3000/api/article?url=${url}&cache=${useCache}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then(function (response) {
         if (response.data.textContent || response.data.fullContent) {
           let doc = {
