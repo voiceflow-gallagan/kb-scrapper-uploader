@@ -2,13 +2,6 @@ import axios from 'axios'
 import html2md from 'html-to-md'
 import FormData from 'form-data'
 
-var TurndownService = require('turndown')
-var turndownPluginGfm = require('turndown-plugin-gfm')
-
-var gfm = turndownPluginGfm.gfm
-var turndownService = new TurndownService()
-turndownService.use(gfm)
-
 const html2mdOptions = {
   ignoreTags: [
     '',
@@ -43,7 +36,7 @@ const html2mdOptions = {
     dt: 'p',
     figcaption: 'p',
   },
-  renderCustomTags: 'SKIP', //true,
+  renderCustomTags: 'SKIP',
 }
 
 /* Function to upload to KB */
@@ -55,12 +48,11 @@ async function executePostRequest(filename, doc, apiKey, projectID, callback) {
 
   let config = {
     method: 'post',
-    url: 'https://api.voiceflow.com/v3/projects/65652b1da1e7a600072c367f/knowledge-base/documents/file',
+    url: `https://api.voiceflow.com/v3/projects/${projectID}/knowledge-base/documents/file`,
     headers: {
       accept: 'application/json, text/plain, */*',
       'content-type': `multipart/form-data; boundary=${form.getBoundary()}`,
-      cookie:
-        'auth_vf=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjM2MDAsImVtYWlsIjoibmljb2xhcy5hcmNheUB2b2ljZWZsb3cuY29tIiwibmFtZSI6Ik5pY29sYXMgQXJjYXkgQmVybWVqbyIsImludGVybmFsQWRtaW4iOnRydWUsImlzcyI6Imh0dHBzOi8vYXV0aC1hcGkudm9pY2VmbG93LmNvbSIsImlhdCI6MTcwNTM0MDE1NH0.okDvpLOiDxwfuRvQ_J_xECoQGZlJb0H1IFbl_o98tjA;',
+      authorization: apiKey,
       ...form.getHeaders(),
     },
     data: form,
@@ -77,10 +69,9 @@ async function executePostRequest(filename, doc, apiKey, projectID, callback) {
 }
 
 export const Scrapper = {
-  parse: async function (url, cache, format, engine, set) {
+  parse: async function (url, cache, format, set) {
     let outputFormat = format || 'text'
     let useCache = cache || 'yes'
-    let mkEngine = engine || 'html2md'
 
     if (useCache != 'no' && useCache != 'false' && useCache != false) {
       useCache = 'yes'
@@ -113,15 +104,7 @@ export const Scrapper = {
             if (outputFormat === 'text') {
               doc.excerpt = response.data.excerpt
             } else {
-              if (mkEngine == 'html2md') {
-                doc.excerpt = html2md(
-                  response.data.excerpt,
-                  html2mdOptions,
-                  true
-                )
-              } else {
-                doc.excerpt = turndownService.turndown(response.data.excerpt)
-              }
+              doc.excerpt = html2md(response.data.excerpt, html2mdOptions, true)
             }
           }
           if (response.data.meta.og.image) {
@@ -131,17 +114,13 @@ export const Scrapper = {
           if (outputFormat === 'text') {
             doc.content = response.data.textContent
           } else {
-            if (mkEngine == 'html2md') {
-              doc.content = html2md(response.data.content, html2mdOptions, true)
-            } else {
-              doc.content = turndownService.turndown(response.data.content)
-            }
+            doc.content = html2md(response.data.content, html2mdOptions, true)
           }
           return executePostRequest(
             response.data.title,
             doc, //response.data.textContent,
-            null,
-            null,
+            'VF.DM.65652b1da1e7a600072c3680.zv2bGKnpqm5baVsV',
+            '65652b1da1e7a600072c367f',
             null
           )
           //return doc

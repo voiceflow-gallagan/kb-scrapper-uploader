@@ -87,16 +87,6 @@ app.get(
             enum: ['text', 'markdown'],
           },
         },
-        {
-          name: 'engine',
-          in: 'query',
-          description: 'Engine to render markdown (default to html2md)',
-          required: false,
-          schema: {
-            type: 'string',
-            enum: ['html2md', 'turndown'],
-          },
-        },
       ],
       responses: {
         200: { description: 'Success' },
