@@ -55,7 +55,7 @@ app.get(
       encodeURI(query.url),
       query.cache,
       query.format,
-      query.kb || false,
+      query.kb || false
     ),
   {
     detail: {
@@ -121,9 +121,9 @@ app.post(
       body.url,
       body.cache,
       body.format,
-      true
+      true,
       body.VFAPIKey,
-      body.projectID,
+      body.projectID
     )
   /* console.log(doc)
     const result = await Scrapper.upload(
