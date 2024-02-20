@@ -88,11 +88,14 @@ export const Scrapper = {
     }
 
     return axios
-      .get(`http://scrapper:3000/api/article?url=${url}&cache=${useCache}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      .get(
+        `http://scrapper:3000/api/article?url=${url}&cache=${useCache}&full-content=true`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       .then(function (response) {
         if (response.data.textContent || response.data.fullContent) {
           let doc = {
@@ -113,7 +116,11 @@ export const Scrapper = {
           if (outputFormat === 'text') {
             doc.content = response.data.textContent
           } else {
-            doc.content = html2md(response.data.content, html2mdOptions, true)
+            doc.content = html2md(
+              response.data.fullContent,
+              html2mdOptions,
+              true
+            )
           }
           if (KB && KB == true) {
             return executePostRequest(
