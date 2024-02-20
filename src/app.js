@@ -51,11 +51,11 @@ app.get(
   '/parse',
   ({ scrapper, query, set }) =>
     scrapper.parse(
+      set,
       encodeURI(query.url),
       query.cache,
       query.format,
-      query.engine,
-      set
+      query.kb || false,
     ),
   {
     detail: {
@@ -93,6 +93,16 @@ app.get(
             enum: ['text', 'markdown'],
           },
         },
+        {
+          name: 'kb',
+          in: 'query',
+          description: 'Push to KB (default to false)',
+          required: false,
+          schema: {
+            type: 'boolean',
+            enum: [true, false],
+          },
+        },
       ],
       responses: {
         200: { description: 'Success' },
@@ -105,10 +115,27 @@ app.get(
 
 app.post(
   '/add',
-  ({ scrapper, body, set }) => {
-    console.log(body)
-  }
-  //scrapper.parse(query.url, query.cache, query.format, query.engine, set),
+  ({ scrapper, body, set }) =>
+    scrapper.parse(
+      set,
+      body.url,
+      body.cache,
+      body.format,
+      true
+      body.VFAPIKey,
+      body.projectID,
+    )
+  /* console.log(doc)
+    const result = await Scrapper.upload(
+      doc.title,
+      doc.content, //response.data.textContent,
+      'VF.DM.65652b1da1e7a600072c3680.zv2bGKnpqm5baVsV',
+      '65652b1da1e7a600072c367f',
+      set
+    )
+
+    return result */
+
   /* {
     detail: {
       tags: ['App'],

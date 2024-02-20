@@ -8,6 +8,7 @@
     "start": "bun install && bun run src/app.js",
     "app": "bun install && bun run src/app.js",
     "docker-build": "docker-compose down --rmi all && docker-compose up --remove-orphans --build -d",
+    "docker-debug": "docker-compose down && docker-compose up --remove-orphans",
     "docker-start": "docker-compose down && docker-compose up --remove-orphans -d",
     "docker-stop": "docker-compose down"
   },

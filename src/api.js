@@ -43,7 +43,8 @@ const html2mdOptions = {
 async function executePostRequest(filename, doc, apiKey, projectID, callback) {
   let form = new FormData()
 
-  form.append('file', JSON.stringify(doc), { filename: filename })
+  //form.append('file', JSON.stringify(doc), { filename: filename })
+  form.append('file', doc, { filename: filename })
   form.append('canEdit', 'true')
 
   let config = {
@@ -69,9 +70,10 @@ async function executePostRequest(filename, doc, apiKey, projectID, callback) {
 }
 
 export const Scrapper = {
-  parse: async function (url, cache, format, set) {
+  parse: async function (set, url, cache, format, toKB, VFAPIKey, projectID) {
     let outputFormat = format || 'text'
     let useCache = cache || 'yes'
+    let KB = toKB || false
 
     if (useCache != 'no' && useCache != 'false' && useCache != false) {
       useCache = 'yes'
@@ -113,14 +115,17 @@ export const Scrapper = {
           } else {
             doc.content = html2md(response.data.content, html2mdOptions, true)
           }
-          return executePostRequest(
-            response.data.title,
-            doc, //response.data.textContent,
-            'VF.DM.65652b1da1e7a600072c3680.zv2bGKnpqm5baVsV',
-            '65652b1da1e7a600072c367f',
-            null
-          )
-          //return doc
+          if (KB && KB == true) {
+            return executePostRequest(
+              doc.title,
+              doc.content, //response.data.textContent,
+              VFAPIKey,
+              projectID,
+              null
+            )
+          } else {
+            return doc
+          }
         }
         return { error: 'No content found' }
       })
