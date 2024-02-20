@@ -14,6 +14,7 @@ const html2mdOptions = {
     'script',
     'meta',
     'footer',
+    'img',
   ],
   skipTags: [
     'div',
@@ -27,6 +28,8 @@ const html2mdOptions = {
     'article',
     'header',
     'label',
+    'img',
+    'svg',
   ],
   emptyTags: [],
   aliasTags: {
@@ -89,7 +92,7 @@ export const Scrapper = {
 
     return axios
       .get(
-        `http://scrapper:3000/api/article?url=${url}&cache=${useCache}&full-content=true&ressources=document`,
+        `http://scrapper:3000/api/article?url=${url}&cache=${useCache}&full-content=true&ressource=document`,
         {
           headers: {
             'Content-Type': 'application/json',
