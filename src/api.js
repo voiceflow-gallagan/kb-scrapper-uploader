@@ -89,7 +89,7 @@ export const Scrapper = {
 
     return axios
       .get(
-        `http://scrapper:3000/api/article?url=${url}&cache=${useCache}&full-content=true`,
+        `http://scrapper:3000/api/article?url=${url}&cache=${useCache}&full-content=true&ressources=document`,
         {
           headers: {
             'Content-Type': 'application/json',
